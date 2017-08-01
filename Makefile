@@ -4,7 +4,7 @@ tests:
 	python mando/tests/run.py
 
 cov:
-	coverage erase && coverage run --include "mando/*" --omit "mando/tests/*" mando/tests/run.py
+	coverage erase && coverage run --include "mando/*" --omit "mando/tests/*,mando/napoleon/*" mando/tests/run.py
 	coverage report -m
 
 htmlcov: cov
@@ -26,7 +26,7 @@ test-deps:
 	pip install -r test_requirements.pip
 
 publish:
-	python setup.py sdist bdist_wheel register upload
+	python setup.py sdist bdist_wheel upload
 
 coveralls: test-deps cov
 	coveralls

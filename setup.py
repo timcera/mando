@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 try:
     import mando
 except ImportError as e:
@@ -7,13 +7,12 @@ except ImportError as e:
 else:
     version = mando.__version__
 
-deps = []
+deps = ['six']
 try:
     # Will fail with 2.6
     import argparse
 except ImportError:
     deps.append('argparse')
-deps.append('sphinx')
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as fobj:
     readme = fobj.read()
@@ -28,7 +27,7 @@ setup(name='mando',
       description='Create Python CLI apps with little to no effort at all!',
       platforms='any',
       long_description=readme,
-      packages=['mando', 'mando.tests'],
+      packages=find_packages(),
       install_requires=deps,
       extras_require={'restructuredText': ['rst2ansi'],},
       test_suite='mando.tests',

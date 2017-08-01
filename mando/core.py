@@ -6,11 +6,15 @@ import sys
 import inspect
 import argparse
 try:
+    getfullargspec = inspect.getfullargspec
+except AttributeError:
+    getfullargspec = inspect.getargspec
+try:
     from itertools import izip_longest
 except ImportError:  # pragma: no cover
     from itertools import zip_longest as izip_longest
 
-from sphinx.ext.napoleon import Config, GoogleDocstring, NumpyDocstring
+from mando.napoleon import Config, GoogleDocstring, NumpyDocstring
 
 from mando.utils import (purify_doc, action_by_type, find_param_docs,
                          split_doc, ensure_dashes, purify_kwargs)
@@ -86,7 +90,7 @@ class SubProgram(object):
             one is ``func.__name__``.'''
         func_name = func.__name__
         name = func_name if name is None else name
-        argspec = inspect.getargspec(func)
+        argspec = getfullargspec(func)
         self._argspecs[func_name] = argspec
         argz = izip_longest(reversed(argspec.args),
                             reversed(argspec.defaults or []),
